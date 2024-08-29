@@ -1,0 +1,67 @@
+# Project Overview
+
+This project includes all necessary files to train machine learning models for two tasks: heart attack risk prediction and Beijing pollution forecasting.
+
+## Project Structure
+
+```
+test/
+│
+├── heart_attack/
+│   ├── predict_model.py
+│   ├── train_model.py
+│   └── models/
+│       ├── best_model.pkl
+│       └── scaler.pkl 
+│
+├── data/
+│   ├── heart.csv
+│   └── pollution_beijing.csv
+│
+├── notebooks/
+│   ├── beijing_pollution_forecasting.ipynb
+│   └── heart_attack_classification_analysis.ipynb
+│
+├── Dockerfile
+├── .dockerignore
+├── requirements.txt
+└── README.md
+```
+
+- **heart_attack/**: Contains the scripts to train and deploy the heart attack risk prediction model, including the pre-trained model (`best_model.pkl`).
+- **data/**: Holds the datasets used for training and evaluation.
+- **notebooks/**: Jupyter notebooks for exploratory data analysis, model training, and evaluation for both heart attack classification and Beijing pollution forecasting.
+- **Dockerfile**: Used to create a Docker image for deploying the prediction API.
+- **requirements.txt**: Lists the Python dependencies required for this project.
+- **README.md**: This file, providing an overview of the project.
+
+## Notebooks
+
+- **heart_attack_classification_analysis.ipynb**: This notebook covers the full analysis and classification of heart attack risk, including data preprocessing, model training, and evaluation.
+- **beijing_pollution_forecasting.ipynb**: This notebook focuses on time series forecasting of Beijing pollution levels, including model selection and prediction accuracy.
+
+## Docker Deployment
+
+The project includes a Dockerfile for deploying the heart attack prediction API. This Dockerfile sets up an environment that runs a Flask server, serving the pre-trained model for real-time predictions.
+
+### Steps to Deploy
+
+1. **Build the Docker image**:
+   ```bash
+   docker build -t heart_attack_predict .
+   ```
+2. **Run the Docker container**:
+   ```bash
+   docker run -d -p 5000:5000 heart_attack_predict
+   ```
+
+### Future Deployment Considerations
+
+To fully automate the workflow, including both model training and prediction serving, consider the following steps:
+
+1. **Create Two Separate Dockerfiles**:
+   - **Dockerfile for Training**: This would set up the environment for training the model, including steps to load the dataset, execute training scripts, and save the trained model.
+   - **Dockerfile for Prediction**: The current Dockerfile, which serves the prediction API.
+
+2. **Use a YAML File for Orchestration**:
+   - A `.yaml` file (e.g., for Kubernetes) can be used to orchestrate and manage both the training and prediction containers in a cloud environment, ensuring they scale appropriately and communicate effectively.
